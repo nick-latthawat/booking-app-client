@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hi there 👋 I'm Nick Latthawat
 
-## Getting Started
+**Programmer** | **Full Stack Developer** | **Badminton Player 🏸**
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 About Me
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+I'm a passionate full stack developer specializing in **C#**, **ASP.NET Core MVC**, **Javascript**, **Bootstrap**, and **Typescript**. Whether it's building robust backends or crafting sleek frontends, I enjoy working on every part of the stack.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+When I'm not coding, you'll find me smashing birdies on the badminton court!
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 💻 Top Skills
 
-To learn more about Next.js, take a look at the following resources:
+- **C#**
+- **ASP.NET Core MVC**
+- **Javascript**
+- **Bootstrap**
+- **Typescript**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🌟 Favorite Projects
 
-## Deploy on Vercel
+I believe every project is an opportunity to grow and innovate. Check out some of my work:
+- [booking-app-client](https://github.com/nick-latthawat/booking-app-client)
+- [booking-app-server](https://github.com/nick-latthawat/booking-app-server)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## ⚡ Fun Fact
+
+I'm as competitive in coding as I am on the badminton court!
+
+---
+
+<!-- Social links (add yours if you’d like) -->
+<!--
+[LinkedIn](#) | [Twitter](#) | [Personal Website](#)
+-->
+
+---
+
+_Thanks for stopping by! Feel free to connect or check out my projects._
