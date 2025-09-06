@@ -9,21 +9,42 @@ const Limits: Record<"rooms" | "adults" | "children", minmax> = {
     children: { min: 0, max: 10 },
 };
 
-export default function GuestPicker({ onSend }: { onSend: (rooms: number, adults: number, children: number) => void }) {
-    const [open, setOpen] = useState(false);
-    const [rooms, setRooms] = useState(1);
-    const [adults, setAdults] = useState(2);
-    const [children, setChildren] = useState(0);
-    const rootRef = useRef<HTMLDivElement>(null);
+type GuestPickerProps = {
+    recRooms: number;
+    recAdults: number;
+    recChildren: number;
+    onSend: (rooms: number, adults: number, children: number) => void;
+};
 
+export default function GuestPicker({
+    recRooms,
+    recAdults,
+    recChildren,
+    onSend,
+}: GuestPickerProps) {
+
+    const [open, setOpen] = useState(false);
+    const [rooms, setRooms] = useState(recRooms);
+    const [adults, setAdults] = useState(recAdults);
+    const [children, setChildren] = useState(recChildren);
+
+    const rootRef = useRef<HTMLDivElement>(null);
+    useEffect(() => setRooms(recRooms), [recRooms]);
+    useEffect(() => setAdults(recAdults), [recAdults]);
+    useEffect(() => setChildren(recChildren), [recChildren]);
+    const apply = () => onSend(rooms, adults, children);
     useEffect(() => {
         function onDocClick(e: MouseEvent) {
             if (!rootRef.current) return;
-            if (!rootRef.current.contains(e.target as Node)) setOpen(false);
+            if (!rootRef.current.contains(e.target as Node)) {
+                // โหมด A: apply เมื่อปิด
+                if (open) apply();
+                setOpen(false);
+            }
         }
         document.addEventListener("mousedown", onDocClick);
         return () => document.removeEventListener("mousedown", onDocClick);
-    }, []);
+    }, [open, rooms, adults, children]);
 
     const summary = `${adults} adult${adults > 1 ? "s" : ""} ${children > 0 ? `, ${children} child${children > 1 ? "ren" : ""}` : ""
         } • ${rooms} room${rooms > 1 ? "s" : ""}`;

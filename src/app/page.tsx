@@ -1,26 +1,29 @@
 "use client";
 import Image from "next/image";
-import { JSX, useState, useEffect } from "react";
-import { FaHotel, FaPlane, FaCar, FaMapMarkerAlt, FaCalendarAlt, FaUser } from "react-icons/fa";
+import { JSX, useState, useEffect, useCallback } from "react";
+import { FaHotel, FaPlane, FaCar, FaMapMarkerAlt, FaUser, FaStar, FaEllipsisH, FaBath, FaWifi } from "react-icons/fa";
 import DateRangePicker from "./component/Datepicker";
 import GuestPicker from "./component/GuestPicker";
 import { apiFetch } from "./lib/api";
+import { useRouter } from "next/navigation";
 
 type TabKey = "hotel" | "flight" | "car";
 export default function Home() {
   const [active, setActive] = useState<TabKey>("hotel");
   const [query, setQuery] = useState("");
   const [queryHid, setQueryHid] = useState("");
+  const [hotelID, setHotelID] = useState("");
   const [results, setResults] = useState<any[]>([]);
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
-
   const [rooms, setRooms] = useState(1);
   const [adults, setAdults] = useState(2);
   const [children, setChildren] = useState(0);
+  const [name, setName] = useState("");
+  const [locationName, setLocationName] = useState("");
+  const [roomType, setRoomtype] = useState("");
 
-  const [url, setUrl] = useState("");
-
+  const router = useRouter();
   const tabs: { key: TabKey; label: string; icon: JSX.Element }[] = [
     { key: "hotel", label: "Hotel", icon: <FaHotel /> },
     { key: "flight", label: "Flight", icon: <FaPlane /> },
@@ -50,9 +53,16 @@ export default function Home() {
     { id: "mae-sai-cri", label: "Mae Sai, Chiang Rai" },
   ];
 
-  useEffect(() => {
-    apiFetch("/booking").then(setUrl);
-  }, []);
+  const hotels = [{
+    ID: "pai-mhs-H001",
+    Name: "Pai Hotel 1",
+    Price: 1107,
+    LocationID: "pai-mhs",
+    LocationName: "Pai, Mae Hong Son",
+    ImagePath: "/img/hotels/pai-mhs/hotel-1.jpg",
+    RoomType: "Standard"
+  }];
+
 
   useEffect(() => {
     if (query.length < 2) {
@@ -67,28 +77,36 @@ export default function Home() {
 
   }, [query]);
 
-  async function Search() {
-    const res = await fetch(url + "/getHotelByLocationID", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        LocationID: queryHid,
-        BookDateFrom: startDate.toISOString().split("T")[0],
-        BookDateTo: endDate.toISOString().split("T")[0],
-        RoomNumber: rooms,
-        AdultNumber: adults,
-        ChildrenNumber: children
-      })
+  async function handleSearch() {
+    const params = new URLSearchParams({
+      id: queryHid,
+      startDate: startDate.toISOString().split("T")[0],
+      endDate: endDate.toISOString().split("T")[0],
+      rooms: rooms.toString(),
+      adults: adults.toString(),
+      children: children.toString(),
+      Name: name,
+      locationName: locationName,
+      roomType: roomType
     });
-    // const data = JSON.stringify({
-    //   LocationID: queryHid,
-    //   BookDateFrom: startDate.toISOString().split("T")[0],
-    //   BookDateTo: endDate.toISOString().split("T")[0],
-    //   RoomNumber: rooms,
-    //   AdultNumber: adults,
-    //   ChildrenNumber: children
-    // });
-    // console.log(data);
+    console.log("App: ", params.toString());
+    router.push(`/explore?${params.toString()}`);
+
+  }
+
+  async function handleBook(id: string, name: string, locationName: string, roomType: string) {
+    const params = new URLSearchParams({
+      paramID: queryHid,
+      paramStartDate: startDate.toISOString().split("T")[0],
+      paramEndDate: endDate.toISOString().split("T")[0],
+      paramRooms: rooms.toString(),
+      paramAdults: adults.toString(),
+      paramChildren: children.toString(),
+      paramName: name,
+      paramLocationName: locationName,
+      paramRoomType: roomType,
+    });
+    router.push(`/detail?${params.toString()}`);
   }
 
   return (
@@ -174,11 +192,16 @@ export default function Home() {
           <div className="mt-3 rounded-lg border border-indigo-200 bg-indigo-50/40 text-gray-700">
             <div className="flex items-center gap-3 lg:px-4 lg:py-3 px-2 py-2">
               <FaUser className="text-indigo-500" />
-              <GuestPicker onSend={(rooms: number, adults: number, children: number) => {
-                setRooms(rooms);
-                setAdults(adults);
-                setChildren(children);
-              }} />
+              <GuestPicker recRooms={rooms}
+                recAdults={adults}
+                recChildren={children}
+                // onSend={handleGuestPicked} 
+                onSend={(r, a, c) => {
+                  setRooms(r);
+                  setAdults(a);
+                  setChildren(c);
+                }}
+              />
             </div>
           </div>
 
@@ -186,15 +209,103 @@ export default function Home() {
           <div className="mt-6 flex justify-center">
             <button
               className="w-56 rounded-lg bg-indigo-600 px-6 py-3 text-white shadow-md transition hover:bg-indigo-700 active:scale-[0.99]"
-              onClick={Search}
+              onClick={handleSearch}
             >
               Search
             </button>
           </div>
+          <div className="mt-2">
+            <section className="mt-4 ">
+              <h2 className="mb-3 text-lg font-semibold text-gray-900">Recent Searches</h2>
+              <div className="space-y-4">
+                {hotels.map((h) => (
+                  <article
+                    key={h.ID}
+                    className="group flex w-full overflow-hidden rounded-xl border bg-white shadow-sm hover:shadow-md mb-5"
+                  >
+                    {/* รูป (โชว์ทุกจอ) */}
+                    <div className="relative w-32 h-auto shrink-0 sm:w-40 sm:h-28 md:w-48 md:h-32 lg:w-56 lg:h-auto">
+                      <Image src={h.ImagePath} alt={h.Name} fill className="object-cover" />
+                    </div>
+                    <div className="flex min-w-0 flex-1 p-3 sm:p-4">
+                      <div className="min-w-0">
+                        <h3 className="truncate text-base font-semibold text-gray-900">{h.Name}</h3>
+                        <div className="mt-1 flex items-center gap-2 text-xs text-gray-500">
+                          <div className="flex items-center text-indigo-500">
+                            {Array.from({ length: 5 }).map((_, i) => (
+                              <FaStar
+                                key={i}
+                                className="fill-current"
+                              />
+                            ))}
+                          </div>
+                          <span className="rounded-full bg-rose-100 px-2 py-0.5 text-rose-600 font-semibold">
+                            {5}
+                          </span>
+                          <span className="whitespace-nowrap">1000 Reviews</span>
+                        </div>
+                        <div className="mt-2">
+                          <p className="text-xs text-gray-500">Amenities</p>
+                          <div className="mt-1 flex items-center gap-2">
+                            {[FaCar, FaBath, FaWifi].map((Icon, idx) => (
+                              <span
+                                key={idx}
+                                className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-gray-200"
+                              >
+                                <Icon className="text-gray-600" />
+                              </span>
+                            ))}
+                            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-gray-200">
+                              <FaEllipsisH className="text-gray-600" />
+                            </span>
+                          </div>
+                        </div>
+
+
+                        <div className="mt-2">
+                          <a className="text-indigo-600 hover:underline" href="#">
+                            {h.Price.toLocaleString()}/night
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* เนื้อหา */}
+                    <div className="flex min-w-0 flex-1 p-3 sm:p-4 ">
+                      <div className="min-w-0 mt-auto">
+                        {/* ปุ่ม (มือถือแสดงในการ์ด) */}
+                        <button
+                          onClick={() => {
+                            handleBook(h.ID, h.Name, h.LocationName, h.RoomType);
+                          }}
+                          className="mt-2 w-full rounded-lg bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-700 sm:hidden"
+                        >
+                          Book Now
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* ปุ่มแนวตั้งด้านขวา (เดสก์ท็อป/แท็บเล็ต) */}
+                    <button
+                      onClick={() => {
+                        handleBook(h.ID, h.Name, h.LocationName, h.RoomType);
+                      }}
+                      className="hidden sm:flex w-12 items-center justify-center bg-indigo-600 text-white hover:bg-indigo-700"
+                      aria-label={`Book ${h.Name}`}
+                    >
+                      <span className="[writing-mode:vertical-rl] rotate-180 font-medium tracking-wide">
+                        Book Now
+                      </span>
+                    </button>
+                  </article>
+                ))}
+              </div>
+            </section>
+          </div>
         </div>
       </div>
 
-      <div className="relative order-1 md:order-2 w-full h-full md:h-auto">
+      <div className="relative order-1 md:order-2 w-auto h-80 md:h-auto">
         <Image
           src="/img/home-wat-arun.jpg"
           alt="wat arun"

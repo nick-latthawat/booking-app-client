@@ -26,8 +26,7 @@ export default function Navbar() {
         <nav className="lg:rounded-tr-2xl lg:rounded-br-2xl lg:rounded-tl-none lg:rounded-bl-none 
         rounded-br-none rounded-tl-2xl rounded-tr-2xl rounded-bl-none bg-[rgb(45,61,223)] 
         fixed bottom-0 left-0 w-full shadow-md flex justify-around items-center py-2 
-        lg:static lg:flex-col lg:h-screen lg:w-20 lg:shadow-none
-        h-20
+        lg:static lg:flex-col lg:h-screen lg:w-20 lg:shadow-none h-20 
         "
         >
             {navItems.map((item) => {
