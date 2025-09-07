@@ -21,7 +21,7 @@ export default function ExplorePage() {
     const didInitFromURL = useRef(false);
 
     useEffect(() => {
-        if (didInitFromURL.current) return; // ทำครั้งเดียวตอน mount
+        if (didInitFromURL.current) return;
         didInitFromURL.current = true;
 
         const paramID = searchParams.get("id");
@@ -33,7 +33,6 @@ export default function ExplorePage() {
         const paramName = searchParams.get("name");
         const paramLocationName = searchParams.get("locationName");
         const paramRoomType = searchParams.get("roomType");
-        console.log({ paramID, paramStartDate, paramEndDate, paramRooms, paramAdults, paramChildren });
         if (paramStartDate) setStartDate(new Date(paramStartDate));
         if (paramEndDate) setEndDate(new Date(paramEndDate));
         if (paramAdults) setAdults(parseInt(paramAdults));
@@ -69,11 +68,8 @@ export default function ExplorePage() {
             paramLocationName: locationName,
             paramRoomType: roomType,
         });
-        console.log(params.toString());
         router.push(`/detail?${params.toString()}`);
     }
-
-
 
     return (
         <div className="p-4">
@@ -92,7 +88,6 @@ export default function ExplorePage() {
                 </div>
             </div>
             <div className="grid gap-6 lg:grid-cols-12">
-                {/* Recommended sidebar */}
                 <aside className="order-1 lg:order-2 lg:col-span-2 hidden lg:block">
                     <div className="rounded-xl border border-indigo-300 bg-white p-2">
                         <h3 className="mb-2 text-sm font-semibold text-gray-700">Recommended</h3>
@@ -119,7 +114,6 @@ export default function ExplorePage() {
                 </aside>
 
                 <div className="order-2 lg:order-1 lg:col-span-10">
-                    {/* Header */}
                     <div className="mb-4">
                         <div className="sm:flex sm:flex-col sm:gap-2 lg:flex lg:flex-row lg:gap-4 ">
                             <h2 className="text-lg font-semibold mb-2">Best places to enjoy your stay</h2>
@@ -134,7 +128,6 @@ export default function ExplorePage() {
                         </div>
                     </div>
 
-                    {/* Grid */}
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         {hotels.map((h) => (
                             <article
@@ -174,11 +167,8 @@ export default function ExplorePage() {
                             </article>
                         ))}
                     </div>
-
                 </div>
-
             </div>
         </div>
-
     );
 }

@@ -10,7 +10,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Navbar />
         </nav>
 
-        {/* Mobile bottom bar (fixed bottom) */}
         <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 z-50 
                         bg-[rgb(45,61,223)] text-white shadow-md flex items-center justify-around">
           <Navbar />

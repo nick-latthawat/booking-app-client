@@ -93,7 +93,6 @@ export default function GuestPicker({
 
     return (
         <div ref={rootRef} className="relative w-full">
-            {/* แถบ trigger */}
             <button
                 type="button"
                 onClick={() => setOpen(o => !o)}
@@ -105,10 +104,8 @@ export default function GuestPicker({
                 <span className={`ml-2 transition ${open ? "rotate-180" : ""}`}>▾</span>
             </button>
 
-            {/* Popover */}
             {open && (
                 <div className="absolute left-0 top-[calc(100%+6px)] z-20 w-full max-w-sm rounded-xl border border-indigo-300 bg-white p-4 shadow-xl md:w-96">
-                    {/* caret */}
                     <div className="absolute -top-2 left-6 h-4 w-4 rotate-45 border-l border-t border-indigo-300 bg-white" />
                     <Row title="Rooms" value={rooms} onMinus={() => minus("rooms")} onPlus={() => plus("rooms")} />
                     <Row title="Adults" value={adults} onMinus={() => minus("adults")} onPlus={() => plus("adults")} />

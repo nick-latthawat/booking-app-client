@@ -89,7 +89,6 @@ export default function Home() {
       locationName: locationName,
       roomType: roomType
     });
-    console.log("App: ", params.toString());
     router.push(`/explore?${params.toString()}`);
 
   }
@@ -119,7 +118,6 @@ export default function Home() {
           What Are You Looking For?
         </h1>
         <div className="w-full">
-          {/* Tabs */}
           <div className="mb-4 flex justify-center gap-4 w-full">
             {tabs.map((t) => {
               const isActive = active === t.key;
@@ -143,7 +141,6 @@ export default function Home() {
             })}
           </div>
 
-          {/* Location */}
           <div className="rounded-lg border border-indigo-300 text-gray-700">
             <div className="relative flex items-center gap-3 lg:px-4 lg:py-3 px-2 py-2">
               <FaMapMarkerAlt className="text-indigo-500" />
@@ -180,7 +177,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Dates */}
           <div className="mt-3 overflow-hidden bg-indigo-50/40 text-gray-700">
             <DateRangePicker onSend={(start: Date, end: Date) => {
               setStartDate(start);
@@ -188,7 +184,6 @@ export default function Home() {
             }} />
           </div>
 
-          {/* Guests / Rooms */}
           <div className="mt-3 rounded-lg border border-indigo-200 bg-indigo-50/40 text-gray-700">
             <div className="flex items-center gap-3 lg:px-4 lg:py-3 px-2 py-2">
               <FaUser className="text-indigo-500" />
@@ -205,7 +200,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Button */}
           <div className="mt-6 flex justify-center">
             <button
               className="w-56 rounded-lg bg-indigo-600 px-6 py-3 text-white shadow-md transition hover:bg-indigo-700 active:scale-[0.99]"
@@ -223,7 +217,6 @@ export default function Home() {
                     key={h.ID}
                     className="group flex w-full overflow-hidden rounded-xl border bg-white shadow-sm hover:shadow-md mb-5"
                   >
-                    {/* รูป (โชว์ทุกจอ) */}
                     <div className="relative w-32 h-auto shrink-0 sm:w-40 sm:h-28 md:w-48 md:h-32 lg:w-56 lg:h-auto">
                       <Image src={h.ImagePath} alt={h.Name} fill className="object-cover" />
                     </div>
@@ -270,10 +263,8 @@ export default function Home() {
                       </div>
                     </div>
 
-                    {/* เนื้อหา */}
                     <div className="flex min-w-0 flex-1 p-3 sm:p-4 ">
                       <div className="min-w-0 mt-auto">
-                        {/* ปุ่ม (มือถือแสดงในการ์ด) */}
                         <button
                           onClick={() => {
                             handleBook(h.ID, h.Name, h.LocationName, h.RoomType);
@@ -285,7 +276,6 @@ export default function Home() {
                       </div>
                     </div>
 
-                    {/* ปุ่มแนวตั้งด้านขวา (เดสก์ท็อป/แท็บเล็ต) */}
                     <button
                       onClick={() => {
                         handleBook(h.ID, h.Name, h.LocationName, h.RoomType);

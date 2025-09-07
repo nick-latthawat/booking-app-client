@@ -26,7 +26,6 @@ export default function DetailPage() {
     const router = useRouter();
 
     const handleSearch = () => {
-        // demo only
         alert(`Search → ${destination} | ${startDate} → ${endDate} | ${adults} adults, ${children} children, ${rooms} room(s)`);
     };
 
@@ -44,10 +43,10 @@ export default function DetailPage() {
 
         })();
 
-
         let params;
         if (hotels.length > 0) {
             params = new URLSearchParams({
+                ID: queryHid,
                 Name: hotels[0].Name,
                 LocationName: hotels[0].LocationName,
                 RoomType: hotels[0].RoomType,
@@ -148,11 +147,8 @@ export default function DetailPage() {
                 <button onClick={handleSearch} className="h-11 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700">Search</button>
             </section>
 
-            {/* Main content */}
             <section className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-12">
-                {/* Left: images + title + rooms list */}
                 <div className="lg:col-span-8">
-                    {/* collage */}
                     <div className="grid grid-cols-12 gap-3">
                         <div className="relative col-span-12 md:col-span-7 aspect-[4/3] rounded-xl overflow-hidden">
                             <Image src="/img/hotels/pai-mhs/hotel-1.jpg" alt="Main" fill className="object-cover" />
@@ -172,7 +168,6 @@ export default function DetailPage() {
                         </div>
                     </div>
 
-                    {/* title + cta */}
                     <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             <h1 className="text-2xl font-semibold text-gray-900">{name}</h1>
@@ -183,27 +178,22 @@ export default function DetailPage() {
                         </button>
                     </div>
 
-                    {/* room cards (loop) */}
                     <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
                         {[1].map((i) => (
                             <article key={i} className="group flex flex-col sm:flex-row overflow-hidden rounded-xl border bg-white shadow-sm hover:shadow-md">
-                                {/* room image */}
                                 <div className="relative w-full h-40 sm:w-44 sm:h-auto">
                                     <Image src="/img/hotels/pai-mhs/hotel-1.jpg" alt="room" fill className="object-cover" />
                                 </div>
-                                {/* room content */}
                                 <div className="flex min-w-0 flex-1 p-4">
                                     <div className="min-w-0">
                                         <p className="text-sm text-gray-500">{roomType} Room</p>
                                         <p className="mt-1 text-xl font-bold text-indigo-700">1,500 BAHT/night</p>
                                     </div>
                                 </div>
-                                {/* vertical button (desktop) */}
                                 <button onClick={() => handleBook(queryHid)}
                                     className="hidden sm:flex w-12 items-center justify-center bg-indigo-600 text-white hover:bg-indigo-700">
                                     <span className="[writing-mode:vertical-rl] rotate-180 font-medium tracking-wide">Book Now</span>
                                 </button>
-                                {/* footer button (mobile) */}
                                 <div className="border-t p-3 sm:hidden">
                                     <button onClick={() => handleBook(queryHid)} className="w-full rounded-lg bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-700">Book Now</button>
                                 </div>
@@ -212,7 +202,6 @@ export default function DetailPage() {
                     </div>
                 </div>
 
-                {/* Right: score + services + highlight */}
                 <aside className="lg:col-span-4">
                     <div className="rounded-xl border bg-white p-4 shadow-sm">
                         <div className="flex items-start gap-3">
@@ -220,7 +209,6 @@ export default function DetailPage() {
                             <div>
                                 <p className="font-semibold text-gray-900">Excellent</p>
                                 <p className="text-xs text-gray-500">6879 Reviews</p>
-                                {/* stars */}
                                 <div className="mt-2 space-y-1 text-sm">
                                     {[
                                         { label: "Housekeeping", value: 4 },
@@ -241,7 +229,6 @@ export default function DetailPage() {
                             </div>
                         </div>
 
-                        {/* services icons */}
                         <div className="mt-4 grid grid-cols-5 gap-2">
                             {[FaCar, FaBath, FaUtensils, FaWifi, FaDumbbell].map((Icon, idx) => (
                                 <div key={idx} className="flex h-10 items-center justify-center rounded-lg bg-white shadow-sm ring-1 ring-gray-200">
@@ -251,7 +238,6 @@ export default function DetailPage() {
                         </div>
                     </div>
 
-                    {/* highlight */}
                     <div className="mt-4 rounded-xl border bg-white p-4 shadow-sm text-sm text-indigo-700 mb-4">
                         <span className="mr-2 text-rose-600">✶</span>
                         This property is in highly demand today.
